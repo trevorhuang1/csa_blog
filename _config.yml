@@ -1,9 +1,9 @@
-title: Nighthawk Pages 
-description: "Class of 2025"
-owner_name: John Mortensen
-github_username: nighthawkcoders
-github_repo: "student_2025" 
-baseurl: "/student_2025"
+title: Trevor's CSA Blog
+description: A blog page for all of my activity in AP Computer Science A. I will regularly update this page with my progress and struggles throughout the course.
+owner_name: Trevor Huang
+github_username: trevorhuang1
+github_repo: "csa_blog" 
+baseurl: "/csa_blog"
 future: true
 remote_theme: jekyll/minima
 minima:
