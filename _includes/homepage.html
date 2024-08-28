@@ -1,10 +1,62 @@
 <html>
-    <button onclick="loadPass()">Load Bathroom Pass</button>
-    <h1>Hello</h1>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <style>
+            .pass-container {
+                width: 300px;
+                background-color: #838383;
+                padding: 20px;
+                margin: 20px auto;
+                text-align: center;
+                border-radius: 10px;
+                font-family: Arial, sans-serif;
+            }
+            .hidden {
+                display: none;
+            }
+        </style>
+        <title>Bathroom Pass</title>
+    </head>
+    <body>
+        <div class="pass-container" id="form-pass">
+            <h2>A101 Bathroom Pass</h2>
+            <label for="studentName">Name: </label>
+            <input type="text" id="studentName" placeholder="Enter name here"><br><br>
+            <label for="approval">Teacher's approval:</label>
+            <input type="checkbox" id="approval"><br><br>
+            <button onclick="submitForm()">Submit</button>
+        </div>
+
+        <div class="pass-container hidden" id="completed-pass">
+            <h2>A101 Bathroom Pass</h2>
+            <p>Name: <span id="nameDisplay"></span></p>
+            <p>Date & time: <span id="dateTimeDisplay"></span></p>
+            <p>Teacher's approval: <span id="approvalDisplay">[✓]</span></p>
+            <img src="https://files.catbox.moe/ceivah.jfif" alt="Teacher" style="width: 100px; height: auto;">
+        </div>
+    </body>
 </html>
 
-<script>
-    function loadPass() {
-        console.log("test");
+<script type="module">
+    import { uri, options } from '{{site.baseurl}}/assets/js/api/config.js';
+    console.log(uri, options);
+    function submitForm() {
+        var name = document.getElementById('studentName').value;
+        var approval = document.getElementById('approval').checked;
+
+        if (name && approval) {
+            var currentDateTime = new Date().toLocaleString();
+
+            document.getElementById('nameDisplay').innerText = name;
+            document.getElementById('dateTimeDisplay').innerText = currentDateTime;
+            document.getElementById('approvalDisplay').innerText = "[✓]";
+
+            document.getElementById('form-pass').classList.add('hidden');
+            document.getElementById('completed-pass').classList.remove('hidden');
+        } 
+        else {
+            alert('Please enter your name and check for teacher approval.');
+        }
     }
 </script>
