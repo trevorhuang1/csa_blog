@@ -38,9 +38,15 @@
     </body>
 </html>
 
-<script type="module">
-    import { uri, options } from '{{site.baseurl}}/assets/js/api/config.js';
-    console.log(uri, options);
+<script>
+    if (location.hostname === "localhost") {
+        uri = "http://127.0.0.1:4100";
+    } else if (location.hostname === "127.0.0.1") {
+        uri = "http://127.0.0.1:4100";
+    } else {
+        uri = "https://trevorhuang1.github.io/csa_blog/";
+    }
+    console.log(uri);
     function submitForm() {
         var name = document.getElementById('studentName').value;
         var approval = document.getElementById('approval').checked;
