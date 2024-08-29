@@ -1,68 +1,82 @@
-<html>
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <style>
-            .pass-container {
-                width: 300px;
-                background-color: #838383;
-                padding: 20px;
-                margin: 20px auto;
-                text-align: center;
-                border-radius: 10px;
-                font-family: Arial, sans-serif;
-            }
-            .hidden {
-                display: none;
-            }
-        </style>
-        <title>Bathroom Pass</title>
-    </head>
-    <body>
-        <div class="pass-container" id="form-pass">
-            <h2>A101 Bathroom Pass</h2>
-            <label for="studentName">Name: </label>
-            <input type="text" id="studentName" placeholder="Enter name here"><br><br>
-            <label for="approval">Teacher's approval:</label>
-            <input type="checkbox" id="approval"><br><br>
-            <button onclick="submitForm()">Submit</button>
-        </div>
-
-        <div class="pass-container hidden" id="completed-pass">
-            <h2>A101 Bathroom Pass</h2>
-            <p>Name: <span id="nameDisplay"></span></p>
-            <p>Date & time: <span id="dateTimeDisplay"></span></p>
-            <p>Teacher's approval: <span id="approvalDisplay">[✓]</span></p>
-            <img src="https://files.catbox.moe/ceivah.jfif" alt="Teacher" style="width: 100px; height: auto;">
-        </div>
-    </body>
-</html>
-
-<script>
-    if (location.hostname === "localhost") {
-        uri = "http://127.0.0.1:4100";
-    } else if (location.hostname === "127.0.0.1") {
-        uri = "http://127.0.0.1:4100";
-    } else {
-        uri = "https://trevorhuang1.github.io/csa_blog/";
+<style>
+    .pass-container {
+        width: 300px;
+        background-color: #838383;
+        padding: 20px;
+        margin: 20px auto;
+        text-align: center;
+        border-radius: 10px;
+        font-family: Arial, sans-serif;
     }
-    console.log(uri);
+    .hidden {
+        display: none;
+    }
+    .signature-canvas {
+	border: 2px solid #000;
+	margin-bottom: 10px;
+    }
+    .save-button {
+        background-color: #4caf50;
+        color: white;
+        padding: 10px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+</style>
+
+<body>
+    <div class="pass-container" id="form-pass">
+        <h2>A101 Bathroom Pass</h2>
+        <label for="studentName">Name: </label>
+        <input type="text" id="studentName" placeholder="Enter name here"><br><br>
+        
+        <label for="signature">Teacher's Signature:</label><br>
+        <canvas id="signatureCanvas" width="400" height="200"></canvas>
+        <button onclick="clearSignature()">Clear</button><br><br>
+        
+        <button onclick="submitForm()">Submit</button>
+    </div>
+
+    <div class="pass-container hidden" id="completed-pass">
+        <h2>A101 Bathroom Pass</h2>
+        <p>Name: <span id="nameDisplay"></span></p>
+        <p>Date & time: <span id="dateTimeDisplay"></span></p>
+        <p>Teacher's Signature:</p>
+        <img id="signatureDisplay" src="" alt="Signature" class="signature-canvas">
+        <img src="https://files.catbox.moe/ceivah.jfif" alt="Teacher" style="width: 100px; height: auto;">
+    </div>
+</body>
+
+<script src="https://cdn.jsdelivr.net/npm/signature_pad@4.0.0/dist/signature_pad.umd.min.js"></script>
+<script>
+    const canvas = document.querySelector('#signatureCanvas');
+    const signaturePad = new SignaturePad(canvas);
+    const saveButton = document.querySelector('#saveButton');
+    
+    saveButton.addEventListener('click', function () {});
+    function clearSignature() {
+        signaturePad.clear();
+    }
+
     function submitForm() {
         var name = document.getElementById('studentName').value;
-        var approval = document.getElementById('approval').checked;
 
-        if (name && approval) {
+        if (name && !signaturePad.isEmpty()) {
             var currentDateTime = new Date().toLocaleString();
 
             document.getElementById('nameDisplay').innerText = name;
             document.getElementById('dateTimeDisplay').innerText = currentDateTime;
-            document.getElementById('approvalDisplay').innerText = "[✓]";
+
+            // Get the data URL of the signature and set it in the completed pass
+            var dataURL = signaturePad.toDataURL();
+            document.getElementById('signatureDisplay').src = dataURL;
 
             document.getElementById('form-pass').classList.add('hidden');
             document.getElementById('completed-pass').classList.remove('hidden');
         } 
         else {
-            alert('Please enter your name and check for teacher approval.');
+            alert('Please enter your name and sign the form.');
         }
     }
 </script>
