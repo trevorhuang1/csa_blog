@@ -11,4 +11,4 @@ fi
 source venv/bin/activate
 echo 'venv activated'
 # Install the required Python packages
-# pip install -r requirements.txt
+pip install -r requirements.txt
