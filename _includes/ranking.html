@@ -1,0 +1,60 @@
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
+<body>
+    <h2>Top 5 Most Popular Condiments</h2>
+    <canvas id="condimentRankChart" width="400" height="200"></canvas>
+</body>
+
+<script>
+    const ctx = document.getElementById('condimentRankChart').getContext('2d');
+    const condimentRankChart = new Chart(ctx, {
+        type: 'horizontalBar', // Horizontal bar chart
+        data: {
+            labels: ['Mayonnaise', 'Ketchup', 'Mustard', 'Soy Sauce', 'Hot Sauce'], // Updated labels
+            datasets: [{
+                label: 'Popularity',
+                data: [5, 4, 3, 2, 1], // Inverted data so most popular is longest
+                backgroundColor: [
+                    'rgba(75, 192, 192, 0.6)', // Mayo
+                    'rgba(255, 99, 132, 0.6)', // Ketchup
+                    'rgba(255, 206, 86, 0.6)', // Mustard
+                    'rgba(139, 69, 19, 0.6)',  // Soy Sauce
+                    'rgba(255, 99, 71, 0.6)'  // Hot Sauce
+                ],
+                borderColor: [
+                    'rgba(75, 192, 192, 1)',
+                    'rgba(255, 99, 132, 1)',
+                    'rgba(255, 206, 86, 1)',
+                    'rgba(139, 69, 19, 1)',
+                    'rgba(255, 99, 71, 1)'
+                ],
+                borderWidth: 1
+            }]
+        },
+        options: {
+            scales: {
+                xAxes: [{
+                    ticks: {
+                        beginAtZero: true,
+                        reverse: false, // Reverse the order of the x-axis
+                        stepSize: 1, // Show popularity numbers clearly
+                        suggestedMax: 5 // Set the max value to 5
+                    }
+                }],
+                yAxes: [{
+                    beginAtZero: true
+                }]
+            },
+            tooltips: {
+                callbacks: {
+                    label: function(tooltipItem) {
+                        // Get the index of the data point
+                        const index = tooltipItem.index;
+                        // Get the rank based on the index (inverted values)
+                        const rank = index + 1;
+                        return 'Rank: ' + rank; // Show rank in tooltip
+                    }
+                }
+            }
+        }
+    });
+</script>

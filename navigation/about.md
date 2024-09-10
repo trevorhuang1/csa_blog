@@ -4,6 +4,7 @@ title: About
 permalink: /about/
 ---
 
+**Background:**
 Hi, my name is Trevor and I'm a junior at Del Norte High School who aspires to be a computer scientist. 
 
 I've been programming for on and off since 5th grade, but it wasn't until last year before I started seeing it as a career path. As of now, I'm fluent in python, javascript, html/css, and I'm currently learning Java. 
