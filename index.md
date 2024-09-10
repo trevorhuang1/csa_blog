@@ -5,6 +5,8 @@ description: Home Page
 hide: true
 ---
 
+{% include nav/home.html %}
+
 {% include homepage.html %}
 
 <script src="https://utteranc.es/client.js"
