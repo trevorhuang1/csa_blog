@@ -1,0 +1,56 @@
+<style>
+    /* Styles for the loading screen */
+    #loading-screen {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: #f8b400;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-family: Arial, sans-serif;
+        color: white;
+        font-size: 24px;
+        z-index: 100;
+    }
+</style>
+
+<div id="loading-screen">
+    <p id="random-fact"></p>
+</div>
+
+<!-- Your main content -->
+<div id="main-content" class="hidden">
+    <!-- Your main content goes here -->
+</div>
+
+<script>
+    // Array of peanut butter facts
+    const peanutButterFacts = [
+        "Peanut butter was first invented in the 1890s!",
+        "The average American eats about 7 pounds of peanut butter each year.",
+        "Peanut butter can be used to make diamonds!",
+        "There are enough peanuts in one acre to make 35,000 peanut butter sandwiches.",
+        "Peanut butter is an excellent source of protein and healthy fats.",
+        "It takes about 540 peanuts to make a 12-ounce jar of peanut butter.",
+        "By law, any product labeled “peanut butter” in the United States must be at least 90 percent peanuts."
+    ];
+
+    // Get a random fact
+    const randomFact = peanutButterFacts[Math.floor(Math.random() * peanutButterFacts.length)];
+
+    // Display the random fact in the loading screen
+    document.getElementById('random-fact').innerText = randomFact;
+
+    // Simulate loading time and remove loading screen
+    window.addEventListener('load', function() {
+        setTimeout(function() {
+            const loadingScreen = document.getElementById('loading-screen');
+            loadingScreen.parentNode.removeChild(loadingScreen); // Remove the loading screen from the DOM
+            document.getElementById('main-content').classList.remove('hidden'); // Show main content
+        }, 2000);  // Simulates a 2 second load time
+        //setTimeout(document.getElementById('loading-screen').remove(), 5000);
+    });
+</script>
