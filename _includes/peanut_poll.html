@@ -1,0 +1,150 @@
+<title>Peanut Butter Popularity Poll</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
+<style>
+    .button-container {
+        display: flex;
+        justify-content: space-between;
+    }
+    .plus-button {
+        cursor: pointer;
+        background-color: #4CAF50;
+        color: white;
+        border: none;
+        padding: 5px 10px;
+        border-radius: 5px;
+    }
+</style>
+<h2>Top 5 Most Popular Peanut Butter Brands</h2>
+<div id="chart-container">
+    <canvas id="peanut_poll" width="400" height="200"></canvas>
+    <div id="button-container" class="button-container"></div> <!-- Buttons go here -->
+</div>
+<br>
+
+<button class="button-30" onclick="add_peanut()">Add Peanut Butter Brand</button>
+
+<script>
+    const uri = "http://127.0.0.1:8028";
+    const options = {
+        method: 'GET', // *GET, POST, PUT, DELETE, etc.
+        mode: 'cors', // no-cors, *cors, same-origin
+        cache: 'default', // *default, no-cache, reload, force-cache, only-if-cached
+        credentials: 'include', // include, same-origin, omit
+        headers: {
+            'Content-Type': 'application/json',
+        },
+    };
+    const postOptions = {
+        ...options, // This will copy all properties from options
+            method: 'POST', // Override the method property
+            cache: 'no-cache', // Set the cache property
+            body: JSON.stringify(body)
+    }
+
+    const ctx = document.getElementById('peanut_poll').getContext('2d');
+
+    // Chart data
+    const peanutButterData = [5, 4, 3, 2, 1]; // Popularity data
+    const peanutButterLabels = [
+        'Smuckers Organic Creamy Peanut butter', 
+        'Wild Friends Food', 
+        'Organic Unsweetened and No Salt', 
+        'Fix and Fogg', 
+        'Field Day Organic and Unsalted Peanut Butter'
+    ]; // Labels
+
+    // Background colors
+    const backgroundColors = [
+        'rgba(75, 192, 192, 0.6)',
+        'rgba(255, 99, 132, 0.6)',
+        'rgba(255, 206, 86, 0.6)',
+        'rgba(139, 69, 19, 0.6)',
+        'rgba(255, 99, 71, 0.6)'
+    ];
+
+    // Border colors
+    const borderColors = [
+        'rgba(75, 192, 192, 1)',
+        'rgba(255, 99, 132, 1)',
+        'rgba(255, 206, 86, 1)',
+        'rgba(139, 69, 19, 1)',
+        'rgba(255, 99, 71, 1)'
+    ];
+
+    // Create chart
+    const condimentRankChart = new Chart(ctx, {
+        type: 'horizontalBar',
+        data: {
+            labels: peanutButterLabels,
+            datasets: [{
+                label: 'Popularity',
+                data: peanutButterData,
+                backgroundColor: backgroundColors,
+                borderColor: borderColors,
+                borderWidth: 1
+            }]
+        },
+        options: {
+            scales: {
+                xAxes: [{
+                    ticks: {
+                        beginAtZero: true,
+                        stepSize: 1,
+                        suggestedMax: 10 // Adjusted max value
+                    }
+                }]
+            }
+        }
+    });
+
+    // Add buttons dynamically
+    function addButtons() {
+        const buttonContainer = document.getElementById('button-container');
+        buttonContainer.innerHTML = ''; // Clear any previous buttons
+
+        peanutButterLabels.forEach((label, index) => {
+            const button = document.createElement('button');
+            button.innerHTML = '+';
+            button.className = 'button-30';
+            button.addEventListener('click', () => increasePopularity(index));
+            buttonContainer.appendChild(button);
+        });
+    }
+
+    // Increase the popularity count
+    function increasePopularity(index) {
+        peanutButterData[index]++;
+        condimentRankChart.update(); // Update the chart with the new data
+    }
+
+    // Add new peanut butter brand
+    function add_peanut() {
+        const newBrand = prompt("Enter the name of the new peanut butter brand:");
+        if (newBrand) {
+            peanutButterLabels.push(newBrand); // Add the new label
+            peanutButterData.push(1); // Initialize with a popularity of 1
+
+            // Generate a random color for the new brand
+            const randomColor = getRandomColor(0.6);
+            const randomBorderColor = getRandomColor(1); // Border color with full opacity
+
+            // Add the new colors
+            backgroundColors.push(randomColor);
+            borderColors.push(randomBorderColor);
+
+            condimentRankChart.update(); // Update the chart with the new data
+            addButtons(); // Rebuild the buttons for the new list
+        }
+    }
+
+    // Function to generate random color
+    function getRandomColor(opacity) {
+        const r = Math.floor(Math.random() * 255);
+        const g = Math.floor(Math.random() * 255);
+        const b = Math.floor(Math.random() * 255);
+        return `rgba(${r}, ${g}, ${b}, ${opacity})`;
+    }
+
+    // Add buttons once the page is ready
+    addButtons();
+</script>
