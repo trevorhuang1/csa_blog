@@ -24,7 +24,7 @@
 <button class="button-30" onclick="add_peanut()">Add Peanut Butter Brand</button>
 
 <script>
-    const uri = "http://127.0.0.1:8028";
+    const url = "http://127.0.0.1:8028/api/baking/";
     const options = {
         method: 'GET', // *GET, POST, PUT, DELETE, etc.
         mode: 'cors', // no-cors, *cors, same-origin
@@ -34,24 +34,46 @@
             'Content-Type': 'application/json',
         },
     };
-    const postOptions = {
-        ...options, // This will copy all properties from options
-            method: 'POST', // Override the method property
-            cache: 'no-cache', // Set the cache property
-            body: JSON.stringify(body)
+
+    // Function for getting peanut butter popularity and labels
+    function fetchData() {
+        fetch(url, options)
+            .then(response => {
+                if (response.status !== 200) {
+                    console.log('Error: ' + response.status);
+                    return;
+                }
+                return response.json();
+            })
+            .then(data => {
+                if (data) {
+                    // Update the chart data
+                    console.log(data);
+                    for (let i = 0; i < data.length; i++) {
+                        peanutButterLabels.push(data[i].name);
+                        peanutButterData.push(data[i].popularity);
+                    }
+                    console.log("Labels: ", peanutButterLabels, typeof peanutButterLabels);
+                    console.log("Data: ", peanutButterData, typeof peanutButterData);
+                    
+                    // Update the chart with the new data
+                    condimentRankChart.update();
+                    addButtons(); // Rebuild the buttons for the new list
+                }
+            })
+            .catch(error => {
+                console.error('There has been a problem with your fetch operation:', error);
+            });
     }
+
+    fetchData(); // Call immediately
+    setInterval(fetchData, 5000); // Call every 5 seconds (5000 milliseconds)
 
     const ctx = document.getElementById('peanut_poll').getContext('2d');
 
     // Chart data
-    const peanutButterData = [5, 4, 3, 2, 1]; // Popularity data
-    const peanutButterLabels = [
-        'Smuckers Organic Creamy Peanut butter', 
-        'Wild Friends Food', 
-        'Organic Unsweetened and No Salt', 
-        'Fix and Fogg', 
-        'Field Day Organic and Unsalted Peanut Butter'
-    ]; // Labels
+    let peanutButterData = []; // Popularity data
+    let peanutButterLabels = []; // Labels
 
     // Background colors
     const backgroundColors = [
@@ -113,8 +135,25 @@
 
     // Increase the popularity count
     function increasePopularity(index) {
-        peanutButterData[index]++;
-        condimentRankChart.update(); // Update the chart with the new data
+        const body = {
+            name: peanutButterLabels[index],
+            popularity: peanutButterData[index] + 1
+        };
+        const postOptions = {
+            ...options, // This will copy all properties from options
+            method: 'POST', // Override the method property
+            cache: 'no-cache', // Set the cache property
+            body: JSON.stringify(body)
+        };
+        fetch(url, postOptions)
+            .then(response => response.json())
+            .then(data => {
+                peanutButterData[index] = data.popularity; // Update the popularity data
+                condimentRankChart.update(); // Update the chart with the new data
+            })
+            .catch(error => {
+                console.error('There has been a problem with your fetch operation:', error);
+            });
     }
 
     // Add new peanut butter brand
