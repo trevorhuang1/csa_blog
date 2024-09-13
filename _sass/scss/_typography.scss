@@ -60,3 +60,28 @@ h5, .h5{
 h6, .h6{
   font-size: 16px;
 }
+
+ul {
+  list-style-type: disc;
+
+  li {
+    color: lightgray; // Set text color to light gray
+
+    &::marker {
+      color: lightgray; // Set bullet color to light gray
+    }
+  }
+}
+
+// Style for ordered list numbers
+ol {
+  list-style-type: decimal;
+
+  li {
+    color: lightgray; // Set text color to light gray
+
+    &::marker {
+      color: lightgray; // Set number color to light gray
+    }
+  }
+}
