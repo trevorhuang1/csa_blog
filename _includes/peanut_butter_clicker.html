@@ -1,83 +1,108 @@
 <style>
     body {
-    text-align: center;
-    background-color: #ffebcc;
-    font-family: Arial, sans-serif;
+        text-align: center;
+        background-color: #ffebcc;
+        font-family: Arial, sans-serif;
     }
 
     .container {
-    margin: 50px auto;
-    width: 350px;
-    padding: 20px;
-    background-color: #fff;
-    border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        margin: 50px auto;
+        width: 350px;
+        padding: 20px;
+        background-color: #fff;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     }
 
     h1 {
-    font-size: 2em;
-    color: #d2691e;
+        font-size: 2em;
+        color: #d2691e;
     }
 
     .clickable {
-    margin: 20px auto;
-    width: 150px;
-    cursor: pointer;
+        margin: 20px auto;
+        width: 150px;
+        cursor: pointer;
     }
 
     .clickable-img {
-    width: 100%;
-    transition: transform 0.2s ease-in-out;
+        width: 100%;
+        transition: transform 0.2s ease-in-out;
     }
 
     .clickable:hover .clickable-img {
-    transform: scale(1.1);
+        transform: scale(1.1);
     }
 
     h2, h3 {
-    color: #8b4513;
+        color: #8b4513;
     }
 
     .shop {
-    margin-top: 20px;
+        margin-top: 20px;
     }
 
     button {
-    padding: 10px 20px;
-    background-color: #d2691e;
-    color: #fff;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    margin-bottom: 10px;
-    transition: background-color 0.3s;
+        padding: 10px 20px;
+        background-color: #d2691e;
+        color: #fff;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        margin-bottom: 10px;
+        transition: background-color 0.3s;
     }
 
     button:hover {
-    background-color: #a0522d;
+        background-color: #a0522d;
+    }
+
+    /* New Top Section */
+    .top-section {
+        background-color: #fff;
+        padding: 10px;
+        margin-bottom: 10px;
+        border-bottom: 2px solid #d2691e;
+    }
+
+    .top-section h2 {
+        color: #8b4513;
+    }
+
+    .top-section a {
+        color: #d2691e;
+        text-decoration: none;
+        font-weight: bold;
     }
 </style>
 
 <body>
+    <!-- Top Section to Display Jars Collected at the Top -->
+    <div class="top-section">
+        <h2>Peanut Butter Clicker!</h2>
+        <p>Jars Collected: <span id="top-count">0</span></p>
+        <a href="#shop">Shop</a>
+    </div>
+
     <div class="container">
-      <h1>Peanut Butter Clicker!</h1>
-      <div class="clickable" onclick="collectPeanutButter()">
-        <img src="https://cdn-icons-png.flaticon.com/512/1047/1047973.png" alt="Peanut Butter Spoon" class="clickable-img">
-      </div>
-      <h2>Jars Collected: <span id="count">0</span></h2>
-      
-      <!-- Shop Section -->
-      <div class="shop">
-        <h3>Shop</h3>
-        <button onclick="buyClickUpgrade()">Increase Jars per Click (Cost: <span id="click-upgrade-cost">50</span> jars)</button>
-        <p id="click-upgrade">Click Level: 1 (Jars per Click: <span id="jars-per-click">1</span>)</p>
+        <h1>Peanut Butter Clicker!</h1>
+        <div class="clickable" onclick="collectPeanutButter()">
+            <img src="https://cdn-icons-png.flaticon.com/512/1047/1047973.png" alt="Peanut Butter Spoon" class="clickable-img">
+        </div>
+        <h2>Jars Collected: <span id="count">0</span></h2>
         
-        <button onclick="buyAutoCollector()">Buy Auto Collector (Cost: <span id="auto-collector-cost">100</span> jars)</button>
-        <p id="auto-collector">Auto Collectors: <span id="auto-collectors">0</span></p>
-        
-        <button onclick="buyMultiplier()">Buy Jars Multiplier (Cost: <span id="multiplier-cost">500</span> jars)</button>
-        <p id="multiplier">Jars Multiplier: <span id="multiplier-level">1</span>x</p>
-      </div>
+        <!-- Shop Section -->
+        <div id="shop" class="shop">
+            <h3>Shop</h3>
+            <button onclick="buyClickUpgrade()">Increase Jars per Click (Cost: <span id="click-upgrade-cost">50</span> jars)</button>
+            <p id="click-upgrade">Click Level: 1 (Jars per Click: <span id="jars-per-click">1</span>)</p>
+            
+            <button onclick="buyAutoCollector()">Buy Auto Collector (Cost: <span id="auto-collector-cost">100</span> jars)</button>
+            <p id="auto-collector">Auto Collectors: <span id="auto-collectors">0</span></p>
+            
+            <button onclick="buyMultiplier()">Buy Jars Multiplier (Cost: <span id="multiplier-cost">500</span> jars)</button>
+            <p id="multiplier">Jars Multiplier: <span id="multiplier-level">1</span>x</p>
+        </div>
     </div>
 </body>
 
@@ -92,7 +117,12 @@
 
     function collectPeanutButter() {
         peanutButterJars += jarsPerClick * multiplier;
+        updateJarCounts();
+    }
+
+    function updateJarCounts() {
         document.getElementById('count').textContent = peanutButterJars;
+        document.getElementById('top-count').textContent = peanutButterJars;
     }
 
     // Click upgrade: increases jars collected per click
@@ -101,12 +131,11 @@
             peanutButterJars -= clickUpgradeCost;
             jarsPerClick++;
             clickUpgradeCost = Math.round(clickUpgradeCost * 1.5);
-            document.getElementById('count').textContent = peanutButterJars;
+            updateJarCounts();
             document.getElementById('click-upgrade-cost').textContent = clickUpgradeCost;
             document.getElementById('jars-per-click').textContent = jarsPerClick;
             alert("You upgraded! Now you collect more jars per click.");
-        } 
-        else {
+        } else {
             alert("Not enough jars to buy this upgrade!");
         }
     }
@@ -117,12 +146,11 @@
             peanutButterJars -= autoCollectorCost;
             autoCollectors++;
             autoCollectorCost = Math.round(autoCollectorCost * 1.5);
-            document.getElementById('count').textContent = peanutButterJars;
+            updateJarCounts();
             document.getElementById('auto-collector-cost').textContent = autoCollectorCost;
             document.getElementById('auto-collectors').textContent = autoCollectors;
             alert("Auto Collector purchased! You now collect jars automatically.");
-        } 
-        else {
+        } else {
             alert("Not enough jars to buy an Auto Collector.");
         }
     }
@@ -133,12 +161,11 @@
             peanutButterJars -= multiplierCost;
             multiplier++;
             multiplierCost = Math.round(multiplierCost * 2);
-            document.getElementById('count').textContent = peanutButterJars;
+            updateJarCounts();
             document.getElementById('multiplier-cost').textContent = multiplierCost;
             document.getElementById('multiplier-level').textContent = multiplier;
             alert("Jars Multiplier upgraded! Now your jars increase faster.");
-        } 
-        else {
+        } else {
             alert("Not enough jars to buy a Multiplier.");
         }
     }
@@ -147,7 +174,7 @@
     setInterval(() => {
         if (autoCollectors > 0) {
             peanutButterJars += autoCollectors * multiplier;
-            document.getElementById('count').textContent = peanutButterJars;
+            updateJarCounts();
         }
     }, 1000);
 </script>
