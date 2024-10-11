@@ -24,8 +24,15 @@
    "cell_type": "markdown",
    "metadata": {},
    "source": [
-    "## Overview: Arrays (Weighted: 10-15%)"
+    "## Overview: Arrays (Weighted: 10-15%)\n",
+    "- A data structure that allows for multiple values of the same type to be in a single variable\n",
+    "- Once declared, arrays have a fixed size."
    ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": []
   }
  ],
  "metadata": {
