@@ -1,0 +1,101 @@
+public int scoreGuess (String guess) {
+    int count = 0;
+    for (int i = 0; i < word.length() < i++) {
+        if (substring(i, guess.length()).equals(guess)) {
+            count++;
+        }
+    }
+    return count * guess.length() * guess.length()
+}
+
+public String findBetterGuess (String guess1, String guess2) {
+    int score1 = scoreGuess(guess1);
+    int score2 = scoreGuess(guess2);
+
+    if (score1 > score2) {
+        return guess1;
+    }
+
+    if (score2 > score1) {
+        return guess2;
+    }
+
+    if (score1 == score2) {
+        result = score1.compareTo(score2);
+        if (result > 0) {
+            return score1;
+        }
+        else {
+            return score2;
+        }
+    }
+}
+
+8/9 --> class header should be 'public class CombinedTable' with no arguments
+public class CombinedTable (SingleTable t1, SingleTable t2) {
+    private SingleTable table1;
+    private SingleTable table2;
+    public CombinedTable(SingleTable t1, SingleTable t2) {
+        table1 = t1;
+        table2 = t2;
+    }
+
+    public boolean canSeat(int num) {
+        return num <= ((table1.getNumSeats() + table2.getNumSeats()) - 2)
+    }
+
+    public double getDesirability() {
+        if (table1.getHeight() == table2.getHeight()) {
+            return (table1.getViewQuality() + table2.getViewQuality())/2.0;
+        }
+        else {
+            return ((table1.getViewQuality() + table2.getViewQuality())/2) - 10;
+        }
+    }
+}
+
+// cro ur cooked. redo ts after. 1/3
+public void addMembers(String[] names, int gradYear) {
+    for (int i = 0; i < names.size(); i++) {
+        memberList.add(names[i]);
+    }
+}
+
+// cro js redo ts </3
+public ArrayList<MemberInfo> removeMembers(int year) {
+    for (MemberInfo member : memberList) {
+        if (member.getGradYear() <= year) {
+            memberList.remove(member);
+        }
+    }
+    return memberList;
+}
+
+//3/3, but make sure to use .length for 2D arrays instead of .size()
+public static boolean isNonZeroRow (int[][] array2D, int r) {
+    for (int i = 0; i < array2D[0].size(); i++) {
+        if (array2D[r][i] != 0) {
+            return true;
+        }
+    }
+    return false;
+}
+
+
+public static int[][] resize (int[][] array2D){
+    int numRows = array2D.length;
+    int numCols = array2D[0].length;
+    int[][] cleanedArray = new int[numNonZeroRows(array2D)][numCols];
+
+    for (int i = 0; i < numRows; i++) {
+        if (isNonZeroRow(array2D, i)) {
+            for (int j = 0; j < numCols; j++) {
+                cleanedArray[newRowIndex][j] = array2D[i][j];
+            }
+            newRowIndex++;
+        }
+        return result;
+    }
+}
+
+//redo #3 real quick
