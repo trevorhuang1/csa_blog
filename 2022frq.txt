@@ -1,0 +1,147 @@
+// 3/4, use getPoints() instead of adding a static number
+public int getScore () {
+    int score = 0;
+    if (levelOne.goalReached()) {
+        score += 200;
+        if (levelTwo.goalReached()) {
+            score += 100;
+            if (levelThree.goalReached()) {
+                score += 500;
+            }
+        }
+    }
+    if (isBonus()) {
+        return score * 3;
+    }
+    else {
+        return score;
+    }
+}
+
+// 4/5, it is within the same class so no need to create new Game object. Redo.
+public int playManyTimes(int num) {
+    int highScore = 0;
+    for (int i = 0; i < num; i++) {
+        Game newGame = new Game;
+        newGame.play();
+        score = newGame.getScore();
+        if (score > highScore) {
+            highscore = score;
+        }
+    }
+    return highScore;
+}
+
+public int playManyTimes (int num) {
+    int highScore = 0;
+    for (int i = 0; i < num; i++) {
+        play();
+        score = getScore();
+        if (score > highScore) {
+            highScore = score;
+        }
+    }
+    return highScore;
+}
+
+//7/9, but learn how to use super() bro. redo.
+public class Textbook extends Book {
+    private String bookTitle;
+    private double bookPrice;
+    private int edition;
+    public Textbook (String bookTitle, double bookPrice, int edition) {
+        super();
+        this.bookTitle = bookTitle;
+        this.bookPrice = bookPrice;
+        this.edition = edition;
+    }
+
+    public int getEdition () {
+        return edition;
+    }
+
+    public boolean canSubstituteFor (Textbook t1) {
+        if (bookTitle.equals(t1.getTitle())) {
+            if (edition >= t1.getEdition) {
+                return true
+            }
+        }
+        return false;
+    }
+    public String getBookInfo() {
+        return title + "-" + price + "-" + edition;
+    }
+}
+
+public class Textbook extends Book {
+    private int edition;
+    public Textbook (String bookTitle, double bookPrice, int edition) {
+        super(bookTitle, bookPrice);
+        this.edition = edition;
+    }
+
+    public int getEdition () {
+        return edition;
+    }
+
+    public boolean canSubstituteFor (Textbook t1) {
+        return getTitle().equals(t1.getTitle()) && getEdition >= t1.getEdition();
+    }
+
+    public String getBookInfo () {
+        return super.getBookInfo() + "-" + edition;
+    }
+}
+
+//3/3
+public double getAverageRating() {
+    int total = 0;
+    for (int i = 0; i < allReviews.length; i++) {
+        total += allReviews[i].getRating();
+    }
+    return (double) total / allReviews.length;
+}
+
+// This is atrocious js follow the instructions </3. Also don
+'t use == on strings.
+public ArrayList<String> collectComments() {
+    ArrayList<String> allComments = new ArrayList<String>();
+
+    for (int i = 0; i < collectComments.length; i++) {
+        comment = allReviews[i].getComment();
+        comment = i + "-" + comment;
+        if (comment[comment.length() - 1] != "." || comment[comment.length() - 1] != "!") {
+            comment = comment + ".";
+        }
+        allComments.add(comment);
+        return allComments;
+    }
+}
+
+public void repopulate() {
+    int randomNumber;
+    for (int i = 0; i < grid.length; i++) {
+        for (int j = 0; k < grid[0].length; j++) {
+            while (randomNumber % 10 != 0 && randomNumber % 100 == 0) {
+                randomNumber = (int) (Math.random() * (MAX+1)) + 1;
+            }
+            grid[i][j] = randomNumber;
+        }
+    }
+}
+
+public int countIncreasingCols() {
+    int count = 0;
+    boolean isIncreasing = true;
+    for (int i = 0; i < grid.length; i++) {
+        for (int j = 0; j < grid[0].length - 1; j++) {
+            if (grid[j][i] > grid[j+1][i]) {
+                isIncreasing = false;
+            }
+        }
+        if(isIncreasing) {
+            count++;
+        }
+    }
+    return count;
+}
